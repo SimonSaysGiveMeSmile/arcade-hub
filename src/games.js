@@ -45,6 +45,16 @@ export const GAMES = [
     url: "https://backroom-gamma.vercel.app",
   },
   {
+    title: "Minecraft Web — Word Builder",
+    year: "Voxel Sandbox",
+    ico: "⛏️",
+    c: "#7ec850",
+    desc: "Minecraft in your browser — press B, describe anything ('a giant glass castle'), and watch it built block-by-block in front of you.",
+    tech: ["Three.js", "TypeScript", "Vite"],
+    path: "minecraft-web",
+    url: "https://minecraft-web-phi.vercel.app",
+  },
+  {
     title: "SCP-3008: The Infinite IKEA",
     year: "Survival Horror",
     ico: "🛋️",
