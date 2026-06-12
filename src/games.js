@@ -7,6 +7,7 @@ export const GAMES = [
   {
     title: "F-22 Lightning II",
     year: "1996 · DOS",
+    scene: "f22",
     ico: "✈️",
     c: "#39d0d8",
     desc: "NovaLogic's combat flight simulator, running in-browser via DOSBox compiled to WebAssembly.",
@@ -17,6 +18,7 @@ export const GAMES = [
   {
     title: "Founder Simulator — GTA 6",
     year: "Open World",
+    scene: "gta6",
     ico: "🏙️",
     c: "#ff5cb8",
     desc: "A stylized neon city you can roam — player movement, vehicles, NPCs and a live HUD.",
@@ -27,6 +29,7 @@ export const GAMES = [
   {
     title: "Founder Simulator",
     year: "WebGPU",
+    scene: "gtav",
     ico: "🌆",
     c: "#9b8cff",
     desc: "A clean-room, browser-only open-world prototype rendered with WebGPU.",
@@ -37,6 +40,7 @@ export const GAMES = [
   {
     title: "The Backrooms Online",
     year: "Multiplayer",
+    scene: "backrooms",
     ico: "🚪",
     c: "#e8d44d",
     desc: "3D Backrooms exploration — 5 levels, 2km² procedural maps, 11 stealth-AI entity types.",
@@ -47,6 +51,7 @@ export const GAMES = [
   {
     title: "Minecraft Web — Word Builder",
     year: "Voxel Sandbox",
+    scene: "minecraft",
     ico: "⛏️",
     c: "#7ec850",
     desc: "Minecraft in your browser — press B, describe anything ('a giant glass castle'), and watch it built block-by-block in front of you.",
@@ -57,6 +62,7 @@ export const GAMES = [
   {
     title: "SCP-3008: The Infinite IKEA",
     year: "Survival Horror",
+    scene: "scp",
     ico: "🛋️",
     c: "#5cff9b",
     desc: "Multiplayer survival horror in an endless, procedurally-generated IKEA. Don't stay past closing.",
