@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { GAMES } from "./games.js";
 
 function Tags({ items }) {
@@ -35,15 +36,20 @@ function Links({ g }) {
   );
 }
 
-/* A real gameplay capture, or an honest placeholder (never a fake shot). */
+/* A real gameplay capture, or an honest placeholder (never a fake shot).
+   The path can be pre-wired before the file exists: if the image is
+   missing it falls back to the placeholder, and the moment a real
+   screenshot is dropped at that path it shows automatically. */
 function Shot({ g, className }) {
-  if (g.shot) {
+  const [failed, setFailed] = useState(false);
+  if (g.shot && !failed) {
     return (
       <img
         className={className}
         src={g.shot}
         alt={`${g.title} gameplay`}
         loading="lazy"
+        onError={() => setFailed(true)}
       />
     );
   }

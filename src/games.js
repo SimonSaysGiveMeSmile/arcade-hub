@@ -58,7 +58,8 @@ export const GAMES = [
     blurb:
       "3D Backrooms exploration — five levels across 2 km² of procedural maps, eleven stealth-AI entities, and live multiplayer.",
     tags: ["Horror", "Multiplayer", "Three.js"],
-    shot: null,
+    // Drop a real capture here to replace the placeholder automatically:
+    shot: "/shots/backrooms.jpg",
     url: "https://backroom-gamma.vercel.app",
     repo: "https://github.com/SimonSaysGiveMeSmile/backroom",
   },
@@ -68,7 +69,8 @@ export const GAMES = [
     blurb:
       "NovaLogic's 1996 combat flight simulator, preserved in the browser via DOSBox compiled to WebAssembly.",
     tags: ["Flight Sim", "DOS", "WASM"],
-    shot: null,
+    // Drop a real capture here to replace the placeholder automatically:
+    shot: "/shots/f22.jpg",
     url: "https://f22-lightning-web.vercel.app",
     repo: "https://github.com/SimonSaysGiveMeSmile/f22-lightning-web",
     upstream: {
