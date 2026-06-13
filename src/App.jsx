@@ -1,6 +1,6 @@
 import { GAMES } from "./games.js";
 
-/* Pure-CSS attract-mode dioramas — one per cabinet screen. */
+/* Pure-CSS attract-mode dioramas — one per cabinet tube. Kept verbatim. */
 function Scene({ scene }) {
   switch (scene) {
     case "f22":
@@ -81,47 +81,55 @@ function Cabinet({ g, i }) {
   const live = Boolean(g.url);
   return (
     <article
-      className="cab"
-      style={{ "--c": g.c, "--d": `${i * 90}ms` }}
+      className={`cab ${g.flagship ? "flagship" : ""} ${live ? "" : "dead-cab"}`}
+      style={{ "--c": g.c, "--i": i }}
     >
       <div className="marquee">
-        <span className={`led ${live ? "on" : "off"}`} />
+        <span
+          className={`led ${live ? "on" : "off"}`}
+          role="img"
+          aria-label={live ? "online" : "offline"}
+        />
         <h2>{g.title}</h2>
         <span className="year">{g.year}</span>
       </div>
 
       <a
-        className={`screen ${live ? "" : "dead"}`}
+        className={`tube ${live ? "" : "dead"}`}
         href={live ? g.url : undefined}
         target={live ? "_blank" : undefined}
         rel={live ? "noopener" : undefined}
-        aria-label={live ? `Play ${g.title}` : `${g.title} (not deployed)`}
+        aria-label={live ? `Play ${g.title}` : `${g.title} — not deployed`}
+        aria-disabled={live ? undefined : true}
       >
         <Scene scene={g.scene} />
-        <div className="glass" />
-        <div className="press-start">
-          {live ? "▸ PRESS START" : "OUT OF ORDER"}
-        </div>
+        <span className="mode">{live ? "ATTRACT MODE" : "OFFLINE"}</span>
       </a>
 
       <div className="deck">
         <p className="desc">{g.desc}</p>
-        <div className="tech">
-          {g.tech.map((t) => (
-            <span key={t}>{t}</span>
-          ))}
-        </div>
+        <p className="spec">{g.spec}</p>
         <div className="actions">
           {live ? (
             <a className="btn play" href={g.url} target="_blank" rel="noopener">
-              ▶ INSERT COIN
+              ▸ PLAY
             </a>
           ) : (
-            <span className="btn play disabled">NOT DEPLOYED</span>
+            <span className="btn disabled" aria-disabled="true">
+              NOT DEPLOYED
+            </span>
           )}
-          <span className="btn ghost" title={`Project folder: Games/${g.path}`}>
-            /{g.path}
-          </span>
+          {g.src && (
+            <a
+              className="btn source"
+              href={g.src}
+              target="_blank"
+              rel="noopener"
+              aria-label={`${g.title} source code`}
+            >
+              SOURCE ↗
+            </a>
+          )}
         </div>
       </div>
     </article>
@@ -130,6 +138,11 @@ function Cabinet({ g, i }) {
 
 export default function App() {
   const liveCount = GAMES.filter((g) => g.url).length;
+  // The flagship leads the hall so its 2-column span never wraps awkwardly,
+  // and it's the first cabinet to power on in the load sequence.
+  const flagship = GAMES.find((g) => g.flagship) || GAMES[0];
+  const ordered = [flagship, ...GAMES.filter((g) => g !== flagship)];
+
   return (
     <>
       <div className="scanlines" aria-hidden="true" />
@@ -137,36 +150,37 @@ export default function App() {
 
       <div className="wrap">
         <header>
-          <p className="ticker">
-            <span>
-              MY GAME LAB ··· OPEN ALL NIGHT ··· NO QUARTERS REQUIRED ··· MY
-              GAME LAB ··· OPEN ALL NIGHT ··· NO QUARTERS REQUIRED ···
-            </span>
-          </p>
-          <h1>
-            THE <span className="neon">ARC<i className="dying">A</i>DE</span>
-          </h1>
-          <p className="sub">
-            Every browser game I've built — flight sims, open-world prototypes,
-            and procedural horror. All playable in a tab.
-          </p>
-          <p className="status-line">
-            <b>{GAMES.length}</b> CABINETS · <b>{liveCount}</b> ONLINE
-            <span className="cursor">▮</span>
-          </p>
+          <div className="marquee-sign">
+            <h1 className="wordmark">
+              ARC<i className="dim">A</i>DE
+            </h1>
+            <p className="sub">
+              Every browser game I've built — flight sims, open-world
+              prototypes, and procedural horror. All playable in a tab.
+            </p>
+            <p className="status-led">
+              <span>
+                <b>{GAMES.length}</b> CABINETS
+              </span>
+              <span className="dot">·</span>
+              <span>
+                <b>{liveCount}</b> ONLINE
+              </span>
+            </p>
+          </div>
         </header>
 
         <main>
           <div className="hall">
-            {GAMES.map((g, i) => (
+            {ordered.map((g, i) => (
               <Cabinet key={g.path} g={g} i={i} />
             ))}
           </div>
         </main>
 
         <footer>
-          BUILT BY ME · HOSTED ON VERCEL · {new Date().getFullYear()} ·
-          MANAGEMENT IS NOT RESPONSIBLE FOR LOST SLEEP
+          OPEN ALL NIGHT · BUILT BY ME · HOSTED ON VERCEL ·{" "}
+          {new Date().getFullYear()}
         </footer>
       </div>
     </>

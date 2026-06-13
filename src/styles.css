@@ -1,16 +1,19 @@
 /* ───────────────────────────────────────────────
-   MIDNIGHT ARCADE — an arcade hall at closing time
-   display: Bungee · terminal: Chivo Mono
+   AFTER HOURS — a midnight arcade hall you walk into.
+   Each cabinet is a CRT tube casting its own color
+   into the dark room. Calm at rest, alive on attention.
+   display: Monoton (hero) + Bungee (marquees) · terminal: Chivo Mono
    ─────────────────────────────────────────────── */
 :root {
-  --bg: #050807;
-  --panel: #0a0f0d;
-  --panel2: #070b0a;
-  --text: #d8e6dc;
-  --muted: #6e8276;
-  --line: #16221c;
-  --phosphor: #54ffa0;
-  --amber: #ffc861;
+  --bg: #05080a;
+  --panel: #0a0f10;
+  --panel-deep: #06090a;
+  --text: #dce8e2;
+  --muted: #8aa39a; /* darkened from #6e8276 to clear 4.5:1 AA */
+  --line: #16221d;
+  --phosphor: #54ffb0;
+  --amber: #ffb347;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 * {
   box-sizing: border-box;
@@ -22,8 +25,9 @@ body {
 }
 body {
   background:
-    radial-gradient(1100px 600px at 50% -20%, #0c1a12 0%, transparent 60%),
+    radial-gradient(1100px 600px at 50% -20%, #0c1a14 0%, transparent 60%),
     radial-gradient(700px 500px at 95% 100%, #0d0a14 0%, transparent 55%),
+    radial-gradient(130% 70% at 50% 122%, color-mix(in srgb, var(--phosphor) 4%, transparent), transparent 60%),
     var(--bg);
   color: var(--text);
   font-family: "Chivo Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -67,152 +71,174 @@ body {
   z-index: 1;
 }
 
-/* ── header ──────────────────────────────────── */
+/* ── header · the overhead marquee sign ──────── */
 header {
-  padding: 0 0 30px;
+  padding: 54px 0 24px;
   text-align: center;
 }
-.ticker {
-  margin: 0 -22px 56px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--line);
-  background: rgba(8, 14, 11, 0.8);
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  color: var(--muted);
+.marquee-sign {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 30px 36px 26px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #0b1110, #070b0c);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 30px 80px -34px #000;
+  animation: sign-on 0.5s var(--ease) both;
+  animation-delay: 0.15s;
 }
-.ticker span {
-  display: inline-block;
-  animation: ticker 28s linear infinite;
+@keyframes sign-on {
+  0% { filter: brightness(0.3); transform: scaleY(0.96); opacity: 0.4; }
+  60% { filter: brightness(1.35); }
+  100% { filter: brightness(1); transform: scaleY(1); opacity: 1; }
 }
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-h1 {
+.wordmark {
   margin: 0;
-  font-family: "Bungee", cursive;
+  font-family: "Monoton", system-ui, cursive;
   font-weight: 400;
-  font-size: clamp(40px, 8vw, 92px);
-  line-height: 0.95;
-  letter-spacing: 0.02em;
-  color: #e9f5ec;
-  text-shadow: 0 0 24px rgba(84, 255, 160, 0.12);
+  font-size: clamp(46px, 11vw, 104px);
+  line-height: 1;
+  letter-spacing: 0.05em;
+  color: #eafff2;
+  animation: ignite 0.7s var(--ease) both;
+  animation-delay: 0.28s;
 }
-h1 .neon {
-  color: var(--phosphor);
-  text-shadow:
-    0 0 6px rgba(84, 255, 160, 0.9),
-    0 0 28px rgba(84, 255, 160, 0.45),
-    0 0 80px rgba(84, 255, 160, 0.25);
+@keyframes ignite {
+  from { opacity: 0.15; text-shadow: none; }
+  to {
+    opacity: 1;
+    text-shadow:
+      0 0 7px color-mix(in srgb, var(--phosphor) 90%, #fff),
+      0 0 28px color-mix(in srgb, var(--phosphor) 55%, transparent),
+      0 0 78px color-mix(in srgb, var(--phosphor) 30%, transparent);
+  }
 }
-/* one dying neon letter — every sign has one */
-h1 .dying {
+/* one lazily-flickering letter — photosensitivity-safe (dim, never strobe) */
+.wordmark .dim {
   font-style: normal;
-  animation: dying 4.2s infinite;
+  animation: lazy-flicker 5s 2.2s infinite;
 }
-@keyframes dying {
-  0%, 18%, 22%, 64%, 100% { opacity: 1; }
-  19%, 21% { opacity: 0.25; }
-  65%, 66.5% { opacity: 0.35; }
-  67% { opacity: 1; }
-  67.5% { opacity: 0.3; }
-  68% { opacity: 1; }
+@keyframes lazy-flicker {
+  0%, 92%, 100% { opacity: 1; }
+  93% { opacity: 0.5; }
+  94% { opacity: 1; }
+  96% { opacity: 0.62; }
+  97% { opacity: 1; }
 }
-
 .sub {
-  margin: 22px auto 0;
-  max-width: 560px;
+  margin: 20px auto 0;
+  max-width: 540px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 1.7;
+  animation: rise 0.5s var(--ease) both;
+  animation-delay: 0.6s;
 }
-.status-line {
-  margin-top: 20px;
+.status-led {
+  display: inline-flex;
+  gap: 14px;
+  margin-top: 18px;
   font-size: 12px;
   letter-spacing: 0.22em;
   color: var(--muted);
+  animation: rise 0.5s var(--ease) both;
+  animation-delay: 0.72s;
 }
-.status-line b {
+.status-led .dot { opacity: 0.5; }
+.status-led b {
   color: var(--phosphor);
   font-weight: 600;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--phosphor) 45%, transparent);
 }
-.cursor {
-  display: inline-block;
-  margin-left: 6px;
-  color: var(--phosphor);
-  animation: blink 1.1s steps(1) infinite;
-}
-@keyframes blink {
-  50% { opacity: 0; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* ── the hall ────────────────────────────────── */
 .hall {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-  gap: 26px;
-  padding: 18px 0 40px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  align-items: start;
+  gap: 28px;
+  padding: 24px 0 44px;
+  perspective: 1400px;
 }
 
 /* ── cabinet ─────────────────────────────────── */
 .cab {
+  --glow: color-mix(in srgb, var(--c) 22%, transparent);
+  position: relative;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, var(--panel), var(--panel2));
+  background: linear-gradient(180deg, var(--panel), var(--panel-deep));
   border: 1px solid var(--line);
-  border-radius: 10px 10px 14px 14px;
+  border-radius: 12px 12px 16px 16px;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(18px);
-  animation: arrive 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-  animation-delay: var(--d, 0ms);
-  transition: border-color 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  transform: translateY(20px);
+  animation: power-on 0.6s var(--ease) both;
+  animation-delay: calc(850ms + var(--i, 0) * 110ms);
+  transition:
+    transform 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    box-shadow 0.35s var(--ease);
+  /* THE SIGNATURE: each cabinet casts its screen color into the dark hall */
+  box-shadow:
+    0 26px 60px -28px #000,
+    0 18px 44px -12px color-mix(in srgb, var(--c) 15%, transparent);
 }
-@keyframes arrive {
+@keyframes power-on {
   to { opacity: 1; transform: translateY(0); }
+}
+.cab.flagship {
+  grid-column: span 2;
 }
 .cab:hover {
   transform: translateY(-5px);
   border-color: color-mix(in srgb, var(--c) 55%, var(--line));
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.6),
-    0 0 42px color-mix(in srgb, var(--c) 18%, transparent);
+    0 32px 72px -26px #000,
+    0 24px 60px -8px color-mix(in srgb, var(--c) 30%, transparent),
+    0 0 46px color-mix(in srgb, var(--c) 16%, transparent);
 }
 
-/* marquee strip */
+/* marquee strip (the lit sign above the tube) */
 .marquee {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
-  padding: 12px 14px 10px;
+  padding: 11px 13px;
   border-bottom: 1px solid var(--line);
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--c) 16%, transparent), transparent),
-    #0c120f;
+    linear-gradient(180deg, color-mix(in srgb, var(--c) 14%, transparent), transparent),
+    #0b110e;
 }
 .marquee h2 {
   margin: 0;
   flex: 1;
   font-family: "Bungee", cursive;
   font-weight: 400;
-  font-size: 13.5px;
-  letter-spacing: 0.04em;
-  color: color-mix(in srgb, var(--c) 80%, #ffffff);
-  text-shadow: 0 0 14px color-mix(in srgb, var(--c) 50%, transparent);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 12.5px;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  color: color-mix(in srgb, var(--c) 78%, #ffffff);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--c) 45%, transparent);
+  /* wraps to two lines — no truncation of long titles */
+}
+.cab.flagship .marquee h2 {
+  font-size: 15px;
 }
 .marquee .year {
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
   white-space: nowrap;
+  align-self: center;
 }
 .led {
   width: 7px;
@@ -224,7 +250,7 @@ h1 .dying {
 .led.on {
   background: var(--phosphor);
   box-shadow: 0 0 8px var(--phosphor);
-  animation: led 2.4s ease-in-out infinite;
+  animation: led 2.6s ease-in-out infinite;
 }
 .led.off {
   background: #3a2f1d;
@@ -234,24 +260,35 @@ h1 .dying {
   50% { opacity: 0.55; }
 }
 
-/* ── the screen ──────────────────────────────── */
-.screen {
+/* ── the tube (curved glass; aspect-ratio fixes the letterbox bug) ── */
+.tube {
   position: relative;
   display: block;
-  height: 168px;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   background: #000;
   border-bottom: 1px solid var(--line);
   cursor: pointer;
   text-decoration: none;
+  animation: tube-on 0.26s var(--ease) both;
+  animation-delay: calc(960ms + var(--i, 0) * 110ms);
 }
-.screen.dead {
+.cab.flagship .tube {
+  aspect-ratio: 16 / 9;
+}
+@keyframes tube-on {
+  0% { filter: brightness(0.2); transform: scaleY(0.9); }
+  100% { filter: brightness(1); transform: scaleY(1); }
+}
+.tube.dead {
   cursor: not-allowed;
 }
-.screen.dead .scene {
+.tube.dead .scene {
   filter: grayscale(0.9) brightness(0.4);
 }
-.glass {
+/* inner glass: colored scanline + corner bulge + top color bloom */
+.tube::after {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: 3;
@@ -259,38 +296,73 @@ h1 .dying {
   background:
     repeating-linear-gradient(
       0deg,
-      rgba(0, 0, 0, 0.18) 0px,
-      rgba(0, 0, 0, 0.18) 1px,
+      color-mix(in srgb, var(--c) 7%, rgba(0, 0, 0, 0.18)) 0px,
+      color-mix(in srgb, var(--c) 7%, rgba(0, 0, 0, 0.18)) 1px,
       transparent 1px,
       transparent 3px
     ),
-    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.07), transparent 55%);
+    radial-gradient(120% 80% at 50% -8%, color-mix(in srgb, var(--c) 12%, transparent), transparent 55%),
+    radial-gradient(135% 120% at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.55));
 }
-.press-start {
+/* diagonal reflection sweep on the glass */
+.tube::before {
+  content: "";
   position: absolute;
-  inset: auto 0 10px;
+  inset: 0;
   z-index: 4;
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  color: #fff;
-  text-shadow: 0 0 10px var(--c);
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  animation: blink 1s steps(1) infinite;
-}
-.screen:hover .press-start {
-  opacity: 1;
-  transform: translateY(0);
-}
-.screen:hover .scene {
-  filter: saturate(1.25) brightness(1.1);
+  pointer-events: none;
+  background: linear-gradient(122deg, rgba(255, 255, 255, 0.1) 0 15%, transparent 32%);
 }
 .scene {
   position: absolute;
   inset: 0;
-  transition: filter 0.2s ease;
+  z-index: 1;
+  transition: filter 0.25s var(--ease);
+}
+/* calm at rest: every diorama animation is paused until you attend to it */
+.scene *,
+.scene *::before,
+.scene *::after {
+  animation-play-state: paused;
+}
+/* wake on hover / keyboard focus — and the flagship is always alive */
+.cab:hover .scene *,
+.cab:hover .scene *::before,
+.cab:hover .scene *::after,
+.cab:focus-within .scene *,
+.cab:focus-within .scene *::before,
+.cab:focus-within .scene *::after,
+.cab.flagship .scene *,
+.cab.flagship .scene *::before,
+.cab.flagship .scene *::after {
+  animation-play-state: running;
+}
+.cab:hover .scene,
+.cab:focus-within .scene {
+  filter: saturate(1.2) brightness(1.08);
+}
+/* always-visible cue (replaces hover-only PRESS START — works on touch too) */
+.mode {
+  position: absolute;
+  left: 11px;
+  bottom: 9px;
+  z-index: 5;
+  font-size: 8.5px;
+  letter-spacing: 0.3em;
+  color: color-mix(in srgb, var(--c) 75%, #fff);
+  text-shadow: 0 0 8px var(--c);
+  opacity: 0.6;
+}
+.tube.dead .mode {
+  color: #7a8a80;
+  text-shadow: none;
+}
+/* in-world focus ring keyed to the cabinet color — accessibility as craft */
+.tube:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--c) 80%, #fff),
+    0 0 26px color-mix(in srgb, var(--c) 40%, transparent);
 }
 
 /* ═══ SCENE: F-22 — cockpit HUD over clouds ═══ */
@@ -452,7 +524,7 @@ h1 .dying {
   to { left: 115%; }
 }
 
-/* ═══ SCENE: GTAV/WebGPU — wireframe grid city ═══ */
+/* ═══ SCENE: GTAV/WebGPU — wireframe grid city (de-moiréd) ═══ */
 .sc-gtav {
   background: linear-gradient(180deg, #04020c 0%, #0d0626 60%, #1c0b3f 100%);
 }
@@ -492,17 +564,17 @@ h1 .dying {
   bottom: 0;
   height: 42%;
   background:
-    linear-gradient(90deg, rgba(155, 140, 255, 0.55) 1px, transparent 1px),
-    linear-gradient(rgba(155, 140, 255, 0.55) 1px, transparent 1px);
-  background-size: 36px 22px;
-  transform: perspective(160px) rotateX(58deg);
+    linear-gradient(90deg, rgba(155, 140, 255, 0.5) 1.5px, transparent 1.5px),
+    linear-gradient(rgba(155, 140, 255, 0.5) 1.5px, transparent 1.5px);
+  background-size: 40px 24px;
+  transform: perspective(170px) rotateX(52deg);
   transform-origin: 50% 0;
-  animation: gridmove 1.6s linear infinite;
+  animation: gridmove 2.4s linear infinite;
   box-shadow: inset 0 30px 30px -20px #04020c;
 }
 @keyframes gridmove {
   from { background-position: 0 0, 0 0; }
-  to { background-position: 0 22px, 0 22px; }
+  to { background-position: 0 24px, 0 24px; }
 }
 
 /* ═══ SCENE: Backrooms — yellow corridor, bad light ═══ */
@@ -566,17 +638,14 @@ h1 .dying {
   animation: fluor 6.5s infinite;
   pointer-events: none;
 }
+/* softened: gentle dips, no rapid strobe spikes (photosensitivity-aware) */
 @keyframes fluor {
-  0%, 41%, 45%, 78%, 100% { opacity: 0; }
-  42%, 44% { opacity: 0.55; }
-  43% { opacity: 0.15; }
-  79% { opacity: 0.4; }
-  79.6% { opacity: 0; }
-  80.2% { opacity: 0.5; }
-  81% { opacity: 0; }
+  0%, 40%, 46%, 78%, 100% { opacity: 0; }
+  42%, 44% { opacity: 0.34; }
+  79%, 80.4% { opacity: 0.28; }
 }
 
-/* ═══ SCENE: Minecraft — voxels stacking ═══ */
+/* ═══ SCENE: Minecraft — voxels stacking (builds on hover) ═══ */
 .sc-minecraft .mc-sky {
   position: absolute;
   inset: 0;
@@ -612,7 +681,7 @@ h1 .dying {
   92%, 100% { opacity: 0; transform: translateY(0); }
 }
 
-/* ═══ SCENE: SCP-3008 — showroom after closing ═══ */
+/* ═══ SCENE: SCP-3008 — showroom after closing (the flagship) ═══ */
 .sc-scp {
   background: linear-gradient(180deg, #061018 0%, #0a1a26 100%);
 }
@@ -638,7 +707,7 @@ h1 .dying {
   width: 26%;
   height: 100%;
   transform: translateX(-50%);
-  background: linear-gradient(180deg, transparent 30%, rgba(245, 197, 66, 0.08) 100%);
+  background: linear-gradient(180deg, transparent 30%, rgba(70, 200, 255, 0.1) 100%);
 }
 .sc-scp .figure {
   position: absolute;
@@ -676,17 +745,18 @@ h1 .dying {
   animation: closing 9s infinite;
   pointer-events: none;
 }
+/* softened blackout: eases in/out instead of snapping (photosensitivity-aware) */
 @keyframes closing {
-  0%, 36%, 70%, 100% { opacity: 0; }
-  40%, 62% { opacity: 0.55; }
+  0%, 34%, 72%, 100% { opacity: 0; }
+  42%, 60% { opacity: 0.48; }
 }
 
-/* ── deck (below the screen) ─────────────────── */
+/* ── deck (below the tube) ───────────────────── */
 .deck {
-  padding: 16px 16px 18px;
+  padding: 14px 15px 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 11px;
   flex: 1;
 }
 .desc {
@@ -696,24 +766,32 @@ h1 .dying {
   line-height: 1.65;
   flex: 1;
 }
-.tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+.cab.flagship .desc {
+  font-size: 13.5px;
+  color: #aebfb4;
 }
-.tech span {
+.spec {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #9fb3a6;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  padding: 3px 7px;
-  background: rgba(255, 255, 255, 0.02);
+  letter-spacing: 0.13em;
+  color: #93b1a3;
+}
+.spec::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--c);
+  box-shadow: 0 0 8px var(--c);
 }
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 9px;
+  margin-top: 2px;
 }
 .btn {
   text-align: center;
@@ -726,38 +804,42 @@ h1 .dying {
   border-radius: 4px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: filter 0.15s ease, transform 0.08s ease, box-shadow 0.2s ease;
+  transition: filter 0.15s ease, transform 0.08s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 .btn:active {
   transform: translateY(1px);
 }
 .btn.play {
   flex: 1;
-  background: var(--c, var(--phosphor));
+  background: var(--c);
   color: #04140b;
-  box-shadow: 0 0 0 transparent;
 }
 .btn.play:hover {
   filter: brightness(1.12);
   box-shadow: 0 0 22px color-mix(in srgb, var(--c) 45%, transparent);
 }
-.btn.disabled {
-  flex: 1;
-  background: #101814;
-  color: #51614f;
-  cursor: not-allowed;
-  border-color: var(--line);
-}
-.btn.ghost {
+.btn.source {
   flex: 0 0 auto;
   background: transparent;
   border-color: var(--line);
   color: var(--muted);
-  cursor: help;
 }
-.btn.ghost:hover {
+.btn.source:hover {
   color: var(--text);
-  border-color: #24372c;
+  border-color: color-mix(in srgb, var(--c) 40%, var(--line));
+}
+.btn.disabled {
+  flex: 1;
+  background: #101814;
+  color: #586a59;
+  cursor: not-allowed;
+  border-color: var(--line);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px color-mix(in srgb, var(--c) 75%, #fff);
 }
 
 /* ── footer ──────────────────────────────────── */
@@ -771,7 +853,20 @@ footer {
   letter-spacing: 0.18em;
 }
 
-/* ── reduced motion ──────────────────────────── */
+/* ── responsive ──────────────────────────────── */
+@media (max-width: 760px) {
+  header { padding: 36px 0 18px; }
+  .marquee-sign { padding: 24px 22px 22px; }
+  .hall { gap: 18px; }
+  .cab.flagship { grid-column: span 1; }
+  .cab.flagship .tube { aspect-ratio: 16 / 10; }
+}
+@media (max-width: 420px) {
+  .wrap { padding: 0 14px; }
+  .status-led { gap: 10px; font-size: 11px; }
+}
+
+/* ── reduced motion · photosensitivity-safe ──── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -780,8 +875,18 @@ footer {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .cab {
-    opacity: 1;
-    transform: none;
+  .cab { opacity: 1; transform: none; }
+  .tube { filter: none; transform: none; }
+  /* freeze every diorama on a composed frame */
+  .scene *,
+  .scene *::before,
+  .scene *::after {
+    animation: none !important;
   }
+  /* never strobe: hold the flicker layers fully clear */
+  .sc-backrooms .flicker,
+  .sc-scp .lights-out {
+    opacity: 0 !important;
+  }
+  .wordmark .dim { animation: none !important; opacity: 1; }
 }
