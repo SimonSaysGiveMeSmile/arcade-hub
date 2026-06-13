@@ -1,18 +1,20 @@
 /* ───────────────────────────────────────────────
-   AFTER HOURS — a midnight arcade hall you walk into.
-   Each cabinet is a CRT tube casting its own color
-   into the dark room. Calm at rest, alive on attention.
-   display: Monoton (hero) + Bungee (marquees) · terminal: Chivo Mono
+   Game Lab — a clean, modern library of browser games.
+   display: Bricolage Grotesque · text: Hanken Grotesk
    ─────────────────────────────────────────────── */
 :root {
-  --bg: #05080a;
-  --panel: #0a0f10;
-  --panel-deep: #06090a;
-  --text: #dce8e2;
-  --muted: #8aa39a; /* darkened from #6e8276 to clear 4.5:1 AA */
-  --line: #16221d;
-  --phosphor: #54ffb0;
-  --amber: #ffb347;
+  --bg: #0b0e13;
+  --surface: #141923;
+  --surface-2: #1a212c;
+  --border: #232b38;
+  --border-hi: #33405a;
+  --text: #e9edf3;
+  --muted: #98a2b3;
+  --muted-2: #6b7480;
+  --accent: #4f8cff;
+  --accent-hi: #6ba1ff;
+  --radius: 14px;
+  --radius-lg: 20px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 * {
@@ -25,868 +27,380 @@ body {
 }
 body {
   background:
-    radial-gradient(1100px 600px at 50% -20%, #0c1a14 0%, transparent 60%),
-    radial-gradient(700px 500px at 95% 100%, #0d0a14 0%, transparent 55%),
-    radial-gradient(130% 70% at 50% 122%, color-mix(in srgb, var(--phosphor) 4%, transparent), transparent 60%),
+    radial-gradient(1200px 520px at 50% -240px, rgba(79, 140, 255, 0.1), transparent 70%),
     var(--bg);
   color: var(--text);
-  font-family: "Chivo Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
 }
-
-/* ── room atmosphere ─────────────────────────── */
-.scanlines {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.22) 0px,
-    rgba(0, 0, 0, 0.22) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  mix-blend-mode: multiply;
-  opacity: 0.5;
-}
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 49;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at 50% 40%,
-    transparent 55%,
-    rgba(0, 0, 0, 0.55) 100%
-  );
+a {
+  color: inherit;
 }
 
 .wrap {
-  max-width: 1180px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: 0 22px;
-  position: relative;
-  z-index: 1;
+  padding: 0 24px 64px;
 }
 
-/* ── header · the overhead marquee sign ──────── */
-header {
-  padding: 54px 0 24px;
-  text-align: center;
+/* ── header ──────────────────────────────────── */
+.top {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 40px 2px 30px;
 }
-.marquee-sign {
-  position: relative;
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 30px 36px 26px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: linear-gradient(180deg, #0b1110, #070b0c);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 30px 80px -34px #000;
-  animation: sign-on 0.5s var(--ease) both;
-  animation-delay: 0.15s;
-}
-@keyframes sign-on {
-  0% { filter: brightness(0.3); transform: scaleY(0.96); opacity: 0.4; }
-  60% { filter: brightness(1.35); }
-  100% { filter: brightness(1); transform: scaleY(1); opacity: 1; }
-}
-.wordmark {
-  margin: 0;
-  font-family: "Monoton", system-ui, cursive;
-  font-weight: 400;
-  font-size: clamp(46px, 11vw, 104px);
-  line-height: 1;
-  letter-spacing: 0.05em;
-  color: #eafff2;
-  animation: ignite 0.7s var(--ease) both;
-  animation-delay: 0.28s;
-}
-@keyframes ignite {
-  from { opacity: 0.15; text-shadow: none; }
-  to {
-    opacity: 1;
-    text-shadow:
-      0 0 7px color-mix(in srgb, var(--phosphor) 90%, #fff),
-      0 0 28px color-mix(in srgb, var(--phosphor) 55%, transparent),
-      0 0 78px color-mix(in srgb, var(--phosphor) 30%, transparent);
-  }
-}
-/* one lazily-flickering letter — photosensitivity-safe (dim, never strobe) */
-.wordmark .dim {
-  font-style: normal;
-  animation: lazy-flicker 5s 2.2s infinite;
-}
-@keyframes lazy-flicker {
-  0%, 92%, 100% { opacity: 1; }
-  93% { opacity: 0.5; }
-  94% { opacity: 1; }
-  96% { opacity: 0.62; }
-  97% { opacity: 1; }
-}
-.sub {
-  margin: 20px auto 0;
-  max-width: 540px;
-  color: var(--muted);
-  font-size: 13.5px;
-  line-height: 1.7;
-  animation: rise 0.5s var(--ease) both;
-  animation-delay: 0.6s;
-}
-.status-led {
+.brand {
   display: inline-flex;
-  gap: 14px;
-  margin-top: 18px;
-  font-size: 12px;
-  letter-spacing: 0.22em;
+  align-items: center;
+  gap: 11px;
+}
+.mark {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--accent), #9b7bff);
+  box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.12);
+}
+.brand .name {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+.tagline {
+  margin: 0;
   color: var(--muted);
-  animation: rise 0.5s var(--ease) both;
-  animation-delay: 0.72s;
-}
-.status-led .dot { opacity: 0.5; }
-.status-led b {
-  color: var(--phosphor);
-  font-weight: 600;
-  text-shadow: 0 0 10px color-mix(in srgb, var(--phosphor) 45%, transparent);
-}
-@keyframes rise {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
+  font-size: 14.5px;
 }
 
-/* ── the hall ────────────────────────────────── */
-.hall {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  align-items: start;
-  gap: 28px;
-  padding: 24px 0 44px;
-  perspective: 1400px;
-}
-
-/* ── cabinet ─────────────────────────────────── */
-.cab {
-  --glow: color-mix(in srgb, var(--c) 22%, transparent);
+/* ── featured hero ───────────────────────────── */
+.featured {
   position: relative;
   display: flex;
-  flex-direction: column;
-  background: linear-gradient(180deg, var(--panel), var(--panel-deep));
-  border: 1px solid var(--line);
-  border-radius: 12px 12px 16px 16px;
+  align-items: flex-end;
+  min-height: 360px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: power-on 0.6s var(--ease) both;
-  animation-delay: calc(850ms + var(--i, 0) * 110ms);
-  transition:
-    transform 0.25s var(--ease),
-    border-color 0.25s var(--ease),
-    box-shadow 0.35s var(--ease);
-  /* THE SIGNATURE: each cabinet casts its screen color into the dark hall */
-  box-shadow:
-    0 26px 60px -28px #000,
-    0 18px 44px -12px color-mix(in srgb, var(--c) 15%, transparent);
+  isolation: isolate;
+  animation: rise 0.6s var(--ease) both;
 }
-@keyframes power-on {
-  to { opacity: 1; transform: translateY(0); }
+.featured-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
 }
-.cab.flagship {
-  grid-column: span 2;
+.featured-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(8, 10, 14, 0.94) 0%, rgba(8, 10, 14, 0.74) 42%, rgba(8, 10, 14, 0.12) 100%),
+    linear-gradient(0deg, rgba(8, 10, 14, 0.85), transparent 62%);
 }
-.cab:hover {
-  transform: translateY(-5px);
-  border-color: color-mix(in srgb, var(--c) 55%, var(--line));
-  box-shadow:
-    0 32px 72px -26px #000,
-    0 24px 60px -8px color-mix(in srgb, var(--c) 30%, transparent),
-    0 0 46px color-mix(in srgb, var(--c) 16%, transparent);
+.featured-body {
+  padding: 34px 36px;
+  max-width: 600px;
+}
+.kicker {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-hi);
+  margin-bottom: 12px;
+}
+.featured-body h2 {
+  margin: 0 0 12px;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+.featured-body h2 .sub {
+  color: var(--muted);
+  font-weight: 600;
+}
+.featured-body p {
+  margin: 0 0 16px;
+  color: #c4ccd8;
+  font-size: 15.5px;
+  line-height: 1.6;
+  max-width: 48ch;
 }
 
-/* marquee strip (the lit sign above the tube) */
-.marquee {
+/* ── section heading ─────────────────────────── */
+.section {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 11px 13px;
-  border-bottom: 1px solid var(--line);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--c) 14%, transparent), transparent),
-    #0b110e;
+  margin: 44px 2px 18px;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.01em;
 }
-.marquee h2 {
-  margin: 0;
-  flex: 1;
-  font-family: "Bungee", cursive;
-  font-weight: 400;
-  font-size: 12.5px;
-  line-height: 1.2;
-  letter-spacing: 0.03em;
-  color: color-mix(in srgb, var(--c) 78%, #ffffff);
-  text-shadow: 0 0 14px color-mix(in srgb, var(--c) 45%, transparent);
-  /* wraps to two lines — no truncation of long titles */
-}
-.cab.flagship .marquee h2 {
-  font-size: 15px;
-}
-.marquee .year {
-  font-size: 9.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.section span {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--muted);
-  white-space: nowrap;
-  align-self: center;
-}
-.led {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  align-self: center;
-  flex: 0 0 auto;
-}
-.led.on {
-  background: var(--phosphor);
-  box-shadow: 0 0 8px var(--phosphor);
-  animation: led 2.6s ease-in-out infinite;
-}
-.led.off {
-  background: #3a2f1d;
-  box-shadow: inset 0 0 2px #000;
-}
-@keyframes led {
-  50% { opacity: 0.55; }
-}
-
-/* ── the tube (curved glass; aspect-ratio fixes the letterbox bug) ── */
-.tube {
-  position: relative;
-  display: block;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background: #000;
-  border-bottom: 1px solid var(--line);
-  cursor: pointer;
-  text-decoration: none;
-  animation: tube-on 0.26s var(--ease) both;
-  animation-delay: calc(960ms + var(--i, 0) * 110ms);
-}
-.cab.flagship .tube {
-  aspect-ratio: 16 / 9;
-}
-@keyframes tube-on {
-  0% { filter: brightness(0.2); transform: scaleY(0.9); }
-  100% { filter: brightness(1); transform: scaleY(1); }
-}
-.tube.dead {
-  cursor: not-allowed;
-}
-.tube.dead .scene {
-  filter: grayscale(0.9) brightness(0.4);
-}
-/* inner glass: colored scanline + corner bulge + top color bloom */
-.tube::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      color-mix(in srgb, var(--c) 7%, rgba(0, 0, 0, 0.18)) 0px,
-      color-mix(in srgb, var(--c) 7%, rgba(0, 0, 0, 0.18)) 1px,
-      transparent 1px,
-      transparent 3px
-    ),
-    radial-gradient(120% 80% at 50% -8%, color-mix(in srgb, var(--c) 12%, transparent), transparent 55%),
-    radial-gradient(135% 120% at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.55));
-}
-/* diagonal reflection sweep on the glass */
-.tube::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-  background: linear-gradient(122deg, rgba(255, 255, 255, 0.1) 0 15%, transparent 32%);
-}
-.scene {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  transition: filter 0.25s var(--ease);
-}
-/* calm at rest: every diorama animation is paused until you attend to it */
-.scene *,
-.scene *::before,
-.scene *::after {
-  animation-play-state: paused;
-}
-/* wake on hover / keyboard focus — and the flagship is always alive */
-.cab:hover .scene *,
-.cab:hover .scene *::before,
-.cab:hover .scene *::after,
-.cab:focus-within .scene *,
-.cab:focus-within .scene *::before,
-.cab:focus-within .scene *::after,
-.cab.flagship .scene *,
-.cab.flagship .scene *::before,
-.cab.flagship .scene *::after {
-  animation-play-state: running;
-}
-.cab:hover .scene,
-.cab:focus-within .scene {
-  filter: saturate(1.2) brightness(1.08);
-}
-/* always-visible cue (replaces hover-only PRESS START — works on touch too) */
-.mode {
-  position: absolute;
-  left: 11px;
-  bottom: 9px;
-  z-index: 5;
-  font-size: 8.5px;
-  letter-spacing: 0.3em;
-  color: color-mix(in srgb, var(--c) 75%, #fff);
-  text-shadow: 0 0 8px var(--c);
-  opacity: 0.6;
-}
-.tube.dead .mode {
-  color: #7a8a80;
-  text-shadow: none;
-}
-/* in-world focus ring keyed to the cabinet color — accessibility as craft */
-.tube:focus-visible {
-  outline: none;
-  box-shadow:
-    inset 0 0 0 2px color-mix(in srgb, var(--c) 80%, #fff),
-    0 0 26px color-mix(in srgb, var(--c) 40%, transparent);
-}
-
-/* ═══ SCENE: F-22 — cockpit HUD over clouds ═══ */
-.sc-f22 .sky {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, #0a2438 0%, #103a52 58%, #2a4a39 58.5%, #16291e 100%);
-}
-.sc-f22 .horizon {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 58%;
-  height: 1px;
-  background: rgba(140, 255, 190, 0.8);
-  box-shadow: 0 0 8px rgba(140, 255, 190, 0.6);
-}
-.sc-f22 .cloud {
-  position: absolute;
-  height: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: rgba(190, 220, 235, 0.18);
-  animation: drift linear infinite;
-}
-.sc-f22 .c1 { width: 90px; top: 22%; animation-duration: 9s; }
-.sc-f22 .c2 { width: 56px; top: 38%; animation-duration: 6.5s; animation-delay: -3s; }
-.sc-f22 .c3 { width: 120px; top: 12%; animation-duration: 13s; animation-delay: -7s; }
-@keyframes drift {
-  from { left: 110%; }
-  to { left: -40%; }
-}
-.sc-f22 .pitch {
-  position: absolute;
-  left: 50%;
-  width: 110px;
-  height: 1px;
-  transform: translateX(-50%);
-  background:
-    linear-gradient(90deg, #7dffb0 0 22%, transparent 22% 78%, #7dffb0 78%);
-  opacity: 0.7;
-}
-.sc-f22 .p1 { top: 40%; }
-.sc-f22 .p2 { top: 76%; }
-.sc-f22 .reticle {
-  position: absolute;
-  left: 50%;
-  top: 58%;
-  width: 26px;
-  height: 26px;
-  transform: translate(-50%, -50%);
-  border: 1.5px solid #7dffb0;
-  border-radius: 50%;
-  box-shadow: 0 0 12px rgba(125, 255, 176, 0.5);
-  animation: reticle 3.4s ease-in-out infinite;
-}
-.sc-f22 .reticle::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 3px;
-  height: 3px;
-  transform: translate(-50%, -50%);
-  background: #7dffb0;
-}
-@keyframes reticle {
-  0%, 100% { transform: translate(-50%, -50%); }
-  30% { transform: translate(calc(-50% + 10px), calc(-50% - 6px)); }
-  65% { transform: translate(calc(-50% - 8px), calc(-50% + 4px)); }
-}
-.sc-f22 .hud-txt {
-  position: absolute;
-  top: 10px;
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  color: #7dffb0;
-  text-shadow: 0 0 6px rgba(125, 255, 176, 0.8);
-}
-.sc-f22 .tl { left: 12px; }
-.sc-f22 .tr { right: 12px; }
-
-/* ═══ SCENE: GTA6 — vice sunset skyline ═══ */
-.sc-gta6 {
-  background: linear-gradient(180deg, #2b0a3d 0%, #71184a 45%, #c4385a 72%, #ff8e52 100%);
-}
-.sc-gta6 .sun {
-  position: absolute;
-  left: 50%;
-  bottom: 28%;
-  width: 84px;
-  height: 84px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: linear-gradient(180deg, #ffd9a0, #ff5cb8);
-  box-shadow: 0 0 50px rgba(255, 140, 160, 0.55);
-  -webkit-mask: repeating-linear-gradient(0deg, #000 0 7px, transparent 7px 10px);
-  mask: repeating-linear-gradient(0deg, #000 0 7px, transparent 7px 10px);
-  animation: sunset 7s ease-in-out infinite alternate;
-}
-@keyframes sunset {
-  from { transform: translateX(-50%) translateY(0); }
-  to { transform: translateX(-50%) translateY(10px); }
-}
-.sc-gta6 .skyline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 18%;
-  height: 52px;
-}
-.sc-gta6 .skyline.back {
-  background:
-    linear-gradient(180deg, #1d0930, #1d0930);
-  clip-path: polygon(0 100%, 0 55%, 7% 55%, 7% 30%, 13% 30%, 13% 62%, 22% 62%, 22% 18%, 28% 18%, 28% 50%, 37% 50%, 37% 35%, 45% 35%, 45% 60%, 54% 60%, 54% 8%, 60% 8%, 60% 45%, 70% 45%, 70% 28%, 78% 28%, 78% 55%, 86% 55%, 86% 38%, 93% 38%, 93% 60%, 100% 60%, 100% 100%);
-  opacity: 0.85;
-}
-.sc-gta6 .skyline.front {
-  bottom: 14%;
-  height: 40px;
-  background: #12051f;
-  clip-path: polygon(0 100%, 0 70%, 10% 70%, 10% 30%, 16% 30%, 16% 75%, 30% 75%, 30% 45%, 38% 45%, 38% 80%, 52% 80%, 52% 25%, 58% 25%, 58% 65%, 72% 65%, 72% 40%, 80% 40%, 80% 78%, 92% 78%, 92% 55%, 100% 55%, 100% 100%);
-}
-.sc-gta6 .strip {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 14%;
-  background: #0c0316;
-}
-.sc-gta6 .strip::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 2px;
-  background: repeating-linear-gradient(90deg, #ffd166 0 14px, transparent 14px 30px);
-  animation: roadline 0.9s linear infinite;
-  opacity: 0.8;
-}
-@keyframes roadline {
-  from { transform: translateX(0); }
-  to { transform: translateX(-30px); }
-}
-.sc-gta6 .car {
-  position: absolute;
-  bottom: 5%;
-  left: -20%;
-  width: 30px;
-  height: 9px;
-  border-radius: 4px 7px 2px 2px;
-  background: #ff5cb8;
-  box-shadow: 0 0 12px rgba(255, 92, 184, 0.8);
-  animation: cruise 5.5s linear infinite;
-}
-@keyframes cruise {
-  from { left: -15%; }
-  to { left: 115%; }
+  padding: 2px 10px;
 }
 
-/* ═══ SCENE: GTAV/WebGPU — wireframe grid city (de-moiréd) ═══ */
-.sc-gtav {
-  background: linear-gradient(180deg, #04020c 0%, #0d0626 60%, #1c0b3f 100%);
+/* ── card grid ───────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
-.sc-gtav .stars {
-  position: absolute;
-  inset: 0 0 45% 0;
-  background-image:
-    radial-gradient(1px 1px at 12% 30%, #cbd6ff 50%, transparent 50%),
-    radial-gradient(1px 1px at 35% 15%, #cbd6ff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 58% 38%, #cbd6ff 50%, transparent 50%),
-    radial-gradient(1px 1px at 76% 12%, #cbd6ff 50%, transparent 50%),
-    radial-gradient(1px 1px at 90% 32%, #cbd6ff 50%, transparent 50%);
-  animation: twinkle 3.6s ease-in-out infinite alternate;
-}
-@keyframes twinkle {
-  from { opacity: 0.5; }
-  to { opacity: 1; }
-}
-.sc-gtav .towers {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 42%;
-  height: 56px;
-  background:
-    linear-gradient(180deg, transparent, rgba(155, 140, 255, 0.16)),
-    repeating-linear-gradient(90deg,
-      transparent 0 14px,
-      rgba(155, 140, 255, 0.5) 14px 15px,
-      transparent 15px 26px);
-  clip-path: polygon(0 100%, 0 60%, 9% 60%, 9% 22%, 18% 22%, 18% 52%, 29% 52%, 29% 8%, 38% 8%, 38% 44%, 50% 44%, 50% 28%, 60% 28%, 60% 58%, 71% 58%, 71% 14%, 80% 14%, 80% 48%, 91% 48%, 91% 34%, 100% 34%, 100% 100%);
-}
-.sc-gtav .gridfloor {
-  position: absolute;
-  left: -30%;
-  right: -30%;
-  bottom: 0;
-  height: 42%;
-  background:
-    linear-gradient(90deg, rgba(155, 140, 255, 0.5) 1.5px, transparent 1.5px),
-    linear-gradient(rgba(155, 140, 255, 0.5) 1.5px, transparent 1.5px);
-  background-size: 40px 24px;
-  transform: perspective(170px) rotateX(52deg);
-  transform-origin: 50% 0;
-  animation: gridmove 2.4s linear infinite;
-  box-shadow: inset 0 30px 30px -20px #04020c;
-}
-@keyframes gridmove {
-  from { background-position: 0 0, 0 0; }
-  to { background-position: 0 24px, 0 24px; }
-}
-
-/* ═══ SCENE: Backrooms — yellow corridor, bad light ═══ */
-.sc-backrooms {
-  background: #b3a14e;
-}
-.sc-backrooms .ceiling {
-  position: absolute;
-  inset: 0 0 78% 0;
-  background: #8f7f3a;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-.sc-backrooms .ceiling i {
-  width: 34px;
-  height: 7px;
-  background: #fdf6c8;
-  box-shadow: 0 0 16px rgba(253, 246, 200, 0.9), 0 4px 30px rgba(253, 246, 200, 0.5);
-}
-.sc-backrooms .wall {
-  position: absolute;
-  top: 22%;
-  bottom: 18%;
-  width: 34%;
-  background:
-    repeating-linear-gradient(90deg,
-      #c4b25a 0 40px,
-      #a5953f 40px 42px);
-}
-.sc-backrooms .wall.left {
-  left: 0;
-  transform: perspective(120px) rotateY(28deg);
-  transform-origin: left;
-}
-.sc-backrooms .wall.right {
-  right: 0;
-  transform: perspective(120px) rotateY(-28deg);
-  transform-origin: right;
-}
-.sc-backrooms .floor {
-  position: absolute;
-  inset: 82% 0 0 0;
-  background: #7a6c2e;
-}
-.sc-backrooms .doorway {
-  position: absolute;
-  left: 50%;
-  top: 38%;
-  width: 34px;
-  height: 44%;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, #241f08, #0d0b03);
-  box-shadow: inset 0 0 14px #000;
-}
-.sc-backrooms .flicker {
-  position: absolute;
-  inset: 0;
-  background: #0c0a02;
-  opacity: 0;
-  animation: fluor 6.5s infinite;
-  pointer-events: none;
-}
-/* softened: gentle dips, no rapid strobe spikes (photosensitivity-aware) */
-@keyframes fluor {
-  0%, 40%, 46%, 78%, 100% { opacity: 0; }
-  42%, 44% { opacity: 0.34; }
-  79%, 80.4% { opacity: 0.28; }
-}
-
-/* ═══ SCENE: Minecraft — voxels stacking (builds on hover) ═══ */
-.sc-minecraft .mc-sky {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, #6fb6ff 0%, #a8d8ff 100%);
-}
-.sc-minecraft .mc-ground {
-  position: absolute;
-  inset: 72% 0 0 0;
-  background:
-    linear-gradient(180deg, #7ec850 0 22%, #8a5a2b 22%);
-  image-rendering: pixelated;
-}
-.sc-minecraft .vox {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  image-rendering: pixelated;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0 50%, transparent 50%),
-    #8a5a2b;
-  border: 1.5px solid rgba(0, 0, 0, 0.35);
-  animation: stack 4.8s ease-in-out infinite;
-  opacity: 0;
-}
-.sc-minecraft .v1 { left: 44%; bottom: 28%; animation-delay: 0s; background-color: #9b6a33; }
-.sc-minecraft .v2 { left: 53%; bottom: 28%; animation-delay: 0.5s; background-color: #9b6a33; }
-.sc-minecraft .v3 { left: 44%; bottom: 41%; animation-delay: 1s; background-color: #b9b9b9; }
-.sc-minecraft .v4 { left: 53%; bottom: 41%; animation-delay: 1.5s; background-color: #b9b9b9; }
-.sc-minecraft .v5 { left: 48.5%; bottom: 54%; animation-delay: 2s; background-color: #e74c3c; }
-@keyframes stack {
-  0% { opacity: 0; transform: translateY(-26px); }
-  8%, 78% { opacity: 1; transform: translateY(0); }
-  92%, 100% { opacity: 0; transform: translateY(0); }
-}
-
-/* ═══ SCENE: SCP-3008 — showroom after closing (the flagship) ═══ */
-.sc-scp {
-  background: linear-gradient(180deg, #061018 0%, #0a1a26 100%);
-}
-.sc-scp .shelf {
-  position: absolute;
-  left: 6%;
-  right: 6%;
-  height: 16px;
-  background:
-    repeating-linear-gradient(90deg,
-      #144a6b 0 26px,
-      #0d3550 26px 28px);
-  border-top: 2px solid #f5c542;
-  opacity: 0.9;
-}
-.sc-scp .s1 { bottom: 16%; }
-.sc-scp .s2 { bottom: 38%; left: 12%; right: 12%; opacity: 0.7; }
-.sc-scp .s3 { bottom: 58%; left: 20%; right: 20%; opacity: 0.5; }
-.sc-scp .aisle {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 26%;
-  height: 100%;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, transparent 30%, rgba(70, 200, 255, 0.1) 100%);
-}
-.sc-scp .figure {
-  position: absolute;
-  left: 50%;
-  bottom: 17%;
-  width: 10px;
-  height: 34px;
-  transform: translateX(-50%);
-  background: #02060a;
-  border-radius: 5px 5px 0 0;
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
-  animation: lurk 9s ease-in-out infinite;
-}
-.sc-scp .figure::before {
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: #02060a;
-}
-@keyframes lurk {
-  0%, 38%, 100% { opacity: 0; }
-  42%, 60% { opacity: 1; }
-  64% { opacity: 0; }
-}
-.sc-scp .lights-out {
-  position: absolute;
-  inset: 0;
-  background: #010407;
-  opacity: 0;
-  animation: closing 9s infinite;
-  pointer-events: none;
-}
-/* softened blackout: eases in/out instead of snapping (photosensitivity-aware) */
-@keyframes closing {
-  0%, 34%, 72%, 100% { opacity: 0; }
-  42%, 60% { opacity: 0.48; }
-}
-
-/* ── deck (below the tube) ───────────────────── */
-.deck {
-  padding: 14px 15px 16px;
+.card {
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: rise 0.5s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.25s var(--ease);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hi);
+  box-shadow: 0 20px 44px -22px rgba(0, 0, 0, 0.8);
+}
+.card-shot {
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0d1016;
+  text-decoration: none;
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s var(--ease);
+}
+.card:hover .card-img {
+  transform: scale(1.045);
+}
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 15px 16px 16px;
   flex: 1;
 }
-.desc {
+.card-body h3 {
+  margin: 0;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+.card-body h3 .sub,
+.featured-body h2 .sub {
+  color: var(--muted);
+  font-weight: 600;
+}
+.card-body p {
   margin: 0;
   color: var(--muted);
-  font-size: 12.5px;
-  line-height: 1.65;
+  font-size: 13.5px;
+  line-height: 1.55;
   flex: 1;
 }
-.cab.flagship .desc {
-  font-size: 13.5px;
-  color: #aebfb4;
+.note {
+  font-size: 11px !important;
+  color: var(--muted-2) !important;
 }
-.spec {
-  margin: 0;
+
+/* ── tags ────────────────────────────────────── */
+.tags {
+  list-style: none;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  letter-spacing: 0.13em;
-  color: #93b1a3;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 2px 0 0;
+  padding: 0;
 }
-.spec::before {
-  content: "";
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  flex: 0 0 auto;
-  background: var(--c);
-  box-shadow: 0 0 8px var(--c);
+.tags li {
+  font-size: 11px;
+  font-weight: 500;
+  color: #b6c0cf;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
 }
+.featured-body .tags li {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+}
+
+/* ── actions / buttons / links ───────────────── */
 .actions {
   display: flex;
-  gap: 9px;
-  margin-top: 2px;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.card-foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
 }
 .btn {
-  text-align: center;
-  text-decoration: none;
-  font-family: "Chivo Mono", monospace;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
   font-weight: 600;
-  font-size: 11.5px;
-  letter-spacing: 0.14em;
-  padding: 11px 14px;
-  border-radius: 4px;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 9px;
+  padding: 10px 18px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: filter 0.15s ease, transform 0.08s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.2s ease;
 }
-.btn:active {
+.btn.sm {
+  font-size: 13px;
+  padding: 8px 14px;
+}
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 18px -8px rgba(79, 140, 255, 0.7);
+}
+.btn.primary:hover {
+  background: var(--accent-hi);
+}
+.btn.primary:active {
   transform: translateY(1px);
 }
-.btn.play {
-  flex: 1;
-  background: var(--c);
-  color: #04140b;
+.links {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
 }
-.btn.play:hover {
-  filter: brightness(1.12);
-  box-shadow: 0 0 22px color-mix(in srgb, var(--c) 45%, transparent);
-}
-.btn.source {
-  flex: 0 0 auto;
-  background: transparent;
-  border-color: var(--line);
+.links a {
   color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
 }
-.btn.source:hover {
+.links a:hover {
   color: var(--text);
-  border-color: color-mix(in srgb, var(--c) 40%, var(--line));
 }
-.btn.disabled {
-  flex: 1;
-  background: #101814;
-  color: #586a59;
-  cursor: not-allowed;
-  border-color: var(--line);
+.btn:focus-visible,
+.links a:focus-visible,
+.card-shot:focus-visible {
+  outline: 2px solid var(--accent-hi);
+  outline-offset: 2px;
+  border-radius: 8px;
 }
-.btn:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 2px var(--bg),
-    0 0 0 4px color-mix(in srgb, var(--c) 75%, #fff);
+
+/* ── honest fallback (no faked gameplay) ─────── */
+.shot-fallback {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background:
+    radial-gradient(120% 120% at 30% 10%, #1c2433, transparent 60%),
+    linear-gradient(135deg, #11161f 0%, #0c1016 100%);
+}
+.shot-fallback::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 100% 8px;
+  opacity: 0.5;
+}
+.featured-shot.shot-fallback { z-index: -2; }
+.fb-title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #cdd6e2;
+  letter-spacing: -0.01em;
+  z-index: 1;
+}
+.fb-hint {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  z-index: 1;
 }
 
 /* ── footer ──────────────────────────────────── */
-footer {
-  border-top: 1px solid var(--line);
-  margin-top: 20px;
-  padding: 26px 0 34px;
-  text-align: center;
+.foot {
+  margin-top: 52px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
   color: var(--muted);
-  font-size: 10.5px;
-  letter-spacing: 0.18em;
+  font-size: 13px;
+}
+.foot a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-hi);
+}
+.foot a:hover {
+  color: var(--accent-hi);
+}
+
+/* ── motion ──────────────────────────────────── */
+@keyframes rise {
+  to { opacity: 1; transform: none; }
 }
 
 /* ── responsive ──────────────────────────────── */
-@media (max-width: 760px) {
-  header { padding: 36px 0 18px; }
-  .marquee-sign { padding: 24px 22px 22px; }
-  .hall { gap: 18px; }
-  .cab.flagship { grid-column: span 1; }
-  .cab.flagship .tube { aspect-ratio: 16 / 10; }
-}
-@media (max-width: 420px) {
-  .wrap { padding: 0 14px; }
-  .status-led { gap: 10px; font-size: 11px; }
+@media (max-width: 560px) {
+  .wrap { padding: 0 16px 48px; }
+  .featured { min-height: 300px; }
+  .featured-body { padding: 24px 20px; }
+  .featured-scrim {
+    background:
+      linear-gradient(90deg, rgba(8, 10, 14, 0.92), rgba(8, 10, 14, 0.55) 100%),
+      linear-gradient(0deg, rgba(8, 10, 14, 0.92), transparent 65%);
+  }
+  .grid { grid-template-columns: 1fr; }
 }
 
-/* ── reduced motion · photosensitivity-safe ──── */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
-  .cab { opacity: 1; transform: none; }
-  .tube { filter: none; transform: none; }
-  /* freeze every diorama on a composed frame */
-  .scene *,
-  .scene *::before,
-  .scene *::after {
-    animation: none !important;
-  }
-  /* never strobe: hold the flicker layers fully clear */
-  .sc-backrooms .flicker,
-  .sc-scp .lights-out {
-    opacity: 0 !important;
-  }
-  .wordmark .dim { animation: none !important; opacity: 1; }
+  .card, .featured { opacity: 1; transform: none; }
 }
