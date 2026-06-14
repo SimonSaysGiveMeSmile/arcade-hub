@@ -20,11 +20,11 @@ export const GAMES = [
     featured: true,
   },
   {
-    title: "Cozy Cat Café Run",
+    title: "Cat Run",
     sub: "Endless Runner",
     blurb:
-      "A sleepy café dash where you swap your runner between cats and memes — mid-jump. Build the vibe meter to PURR as day drifts into night.",
-    tags: ["Endless Runner", "Cozy", "Canvas"],
+      "A minimal ink-on-paper dash where you swap your runner between cats and memes — mid-jump. Build the vibe meter to PURR as day inverts into night.",
+    tags: ["Endless Runner", "Minimal", "Canvas"],
     shot: "/shots/cozycat.jpg",
     url: "https://cozy-cat-cafe.vercel.app",
     repo: "https://github.com/SimonSaysGiveMeSmile/cozy-cat-cafe",
