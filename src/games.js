@@ -23,8 +23,8 @@ export const GAMES = [
     title: "Cat Run",
     sub: "Endless Runner",
     blurb:
-      "A minimal ink-on-paper dash where you swap your runner between cats and memes — mid-jump. Build the vibe meter to PURR as day inverts into night.",
-    tags: ["Endless Runner", "Minimal", "Canvas"],
+      "A minimal ink-on-paper dash — swap your runner between cats, memes, or any emoji you make, mid-jump. Race faint ghosts of the global top runs and climb the live leaderboard.",
+    tags: ["Endless Runner", "Online", "Minimal"],
     shot: "/shots/cozycat.jpg",
     url: "https://cozy-cat-cafe.vercel.app",
     repo: "https://github.com/SimonSaysGiveMeSmile/cozy-cat-cafe",
