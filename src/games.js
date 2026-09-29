@@ -15,7 +15,7 @@ export const GAMES = [
       "Multiplayer survival horror in an endless, procedurally-generated IKEA. Scavenge supplies, build a shelter, and survive the staff once the store closes.",
     tags: ["Survival Horror", "Multiplayer", "Three.js"],
     shot: "/shots/scp.jpg",
-    url: "https://scp3008.vercel.app",
+    url: "https://scp3008-one.vercel.app",
     repo: "https://github.com/SimonSaysGiveMeSmile/SCP3008",
     featured: true,
   },
@@ -36,7 +36,7 @@ export const GAMES = [
       "A browser Minecraft with an AI twist: press B, describe anything — “a giant glass castle” — and watch it build itself block by block in front of you.",
     tags: ["Sandbox", "AI", "Three.js"],
     shot: "/shots/minecraft.jpg",
-    url: "https://minecraft-web-phi.vercel.app",
+    url: "https://minecraft-web-psi.vercel.app",
     repo: "https://github.com/SimonSaysGiveMeSmile/minecraft-web",
     upstream: {
       label: "minecraft-threejs by Yulei Zhu",
@@ -50,7 +50,7 @@ export const GAMES = [
       "A stylized open city you roam on foot or by car — traffic, NPCs, pickups and a live HUD, all running in the browser.",
     tags: ["Open World", "Three.js", "R3F"],
     shot: "/shots/gta6.jpg",
-    url: "https://gta6-beta.vercel.app",
+    url: "https://gta6-opal.vercel.app",
   },
   {
     title: "Founder Simulator",
@@ -59,7 +59,7 @@ export const GAMES = [
       "A clean-room, browser-only open-world prototype rendered on the bleeding-edge WebGPU pipeline with streaming sectors.",
     tags: ["Open World", "WebGPU", "Three.js"],
     shot: "/shots/gtav.jpg",
-    url: "https://gtav-web-opal.vercel.app",
+    url: "https://gtav-web-six.vercel.app",
     repo: "https://github.com/SimonSaysGiveMeSmile/gtav-web",
   },
   {
@@ -70,7 +70,7 @@ export const GAMES = [
     tags: ["Horror", "Multiplayer", "Three.js"],
     // Drop a real capture here to replace the placeholder automatically:
     shot: "/shots/backrooms.jpg",
-    url: "https://backroom-gamma.vercel.app",
+    url: "https://www.backrooms.online",
     repo: "https://github.com/SimonSaysGiveMeSmile/backroom",
   },
   {
@@ -81,7 +81,7 @@ export const GAMES = [
     tags: ["Flight Sim", "DOS", "WASM"],
     // Drop a real capture here to replace the placeholder automatically:
     shot: "/shots/f22.jpg",
-    url: "https://f22-lightning-web.vercel.app",
+    url: "https://f22-lightning-web-beryl.vercel.app",
     repo: "https://github.com/SimonSaysGiveMeSmile/f22-lightning-web",
     upstream: {
       label: "js-dos — DOSBox in WebAssembly",
