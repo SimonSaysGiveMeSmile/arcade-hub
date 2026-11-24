@@ -58,6 +58,9 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 11px;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
 }
 .mark {
   width: 18px;

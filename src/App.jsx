@@ -282,10 +282,10 @@ export default function App() {
   return (
     <div className="wrap">
       <header className="top">
-        <div className="brand">
+        <h1 className="brand">
           <span className="mark" aria-hidden="true" />
           <span className="name">Game&nbsp;Lab</span>
-        </div>
+        </h1>
         <p className="tagline">Browser games I've built — open one in a tab.</p>
         <button className="btn primary submit-cta" onClick={() => setSubmitOpen(true)}>+ Publish your game</button>
       </header>

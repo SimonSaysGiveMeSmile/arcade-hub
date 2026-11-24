@@ -4,7 +4,36 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Game Lab — browser games by SimonSaysGiveMeSmile</title>
-    <meta name="description" content="A small library of browser games I've built: survival horror in an infinite IKEA, a voxel word-builder, open-world prototypes, multiplayer Backrooms, and a 1996 DOS flight sim in WebAssembly." />
+    <meta name="description" content="Browser games I've built: survival horror in an infinite IKEA, a voxel word-builder, open-world prototypes, multiplayer Backrooms and a 1996 DOS flight sim." />
+    <link rel="canonical" href="https://www.onlygame.site/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Game Lab" />
+    <meta property="og:url" content="https://www.onlygame.site/" />
+    <meta property="og:title" content="Game Lab — browser games by SimonSaysGiveMeSmile" />
+    <meta property="og:description" content="Browser games I've built: survival horror in an infinite IKEA, a voxel word-builder, open-world prototypes, multiplayer Backrooms and a 1996 DOS flight sim." />
+    <meta property="og:image" content="https://www.onlygame.site/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Game Lab — browser games, featuring SCP-3008: The Infinite IKEA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Game Lab — browser games by SimonSaysGiveMeSmile" />
+    <meta name="twitter:description" content="Browser games I've built: survival horror in an infinite IKEA, a voxel word-builder, open-world prototypes, multiplayer Backrooms and a 1996 DOS flight sim." />
+    <meta name="twitter:image" content="https://www.onlygame.site/og.png" />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@graph":[
+        {"@type":"WebSite","@id":"https://www.onlygame.site/#website","name":"Game Lab","url":"https://www.onlygame.site/","description":"Browser games I've built: survival horror in an infinite IKEA, a voxel word-builder, open-world prototypes, multiplayer Backrooms and a 1996 DOS flight sim."},
+        {"@type":"CollectionPage","name":"Game Lab — browser games by SimonSaysGiveMeSmile","url":"https://www.onlygame.site/","image":"https://www.onlygame.site/og.png","author":{"@type":"Person","name":"Simon Tian","url":"https://www.hisimon.pro"},
+          "hasPart":[
+            {"@type":"VideoGame","name":"SCP-3008 · The Infinite IKEA","url":"https://scp3008-one.vercel.app","gamePlatform":"Web browser"},
+            {"@type":"VideoGame","name":"Cat Run","url":"https://cozy-cat-cafe.vercel.app","gamePlatform":"Web browser"},
+            {"@type":"VideoGame","name":"Minecraft Web","url":"https://minecraft-web-psi.vercel.app","gamePlatform":"Web browser"},
+            {"@type":"VideoGame","name":"Founder Simulator · GTA 6","url":"https://gta6-opal.vercel.app","gamePlatform":"Web browser"},
+            {"@type":"VideoGame","name":"Founder Simulator · WebGPU","url":"https://gtav-web-six.vercel.app","gamePlatform":"Web browser"},
+            {"@type":"VideoGame","name":"The Backrooms","url":"https://www.backrooms.online","gamePlatform":"Web browser"},
+            {"@type":"VideoGame","name":"F-22 Lightning II","url":"https://f22-lightning-web-beryl.vercel.app","gamePlatform":"Web browser"}
+          ]}
+      ]}
+    </script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +43,23 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static intro for crawlers and no-JS visitors; React replaces it on mount. -->
+      <main style="max-width:720px;margin:40px auto;padding:0 16px;font-family:sans-serif;color:#e8ecf3;background:#0b0e14">
+        <h1>Game Lab</h1>
+        <p>Browser games I've built — open one in a tab. Survival horror in an infinite IKEA, a voxel word-builder, open-world prototypes, multiplayer Backrooms and a 1996 DOS flight sim in WebAssembly.</p>
+        <ul>
+          <li><a href="https://scp3008-one.vercel.app">SCP-3008 · The Infinite IKEA</a> — multiplayer survival horror in an endless, procedurally-generated IKEA.</li>
+          <li><a href="https://cozy-cat-cafe.vercel.app">Cat Run</a> — an ink-on-paper endless runner with a live leaderboard.</li>
+          <li><a href="https://minecraft-web-psi.vercel.app">Minecraft Web</a> — describe anything and watch it build itself block by block.</li>
+          <li><a href="https://gta6-opal.vercel.app">Founder Simulator · GTA 6</a> — a stylized open city you roam on foot or by car.</li>
+          <li><a href="https://gtav-web-six.vercel.app">Founder Simulator · WebGPU</a> — a browser-only open-world prototype on WebGPU.</li>
+          <li><a href="https://www.backrooms.online">The Backrooms</a> — 3D Backrooms exploration with live multiplayer.</li>
+          <li><a href="https://f22-lightning-web-beryl.vercel.app">F-22 Lightning II</a> — NovaLogic's 1996 flight sim via DOSBox in WebAssembly.</li>
+        </ul>
+        <p>Built by <a href="https://github.com/SimonSaysGiveMeSmile">SimonSaysGiveMeSmile</a>.</p>
+      </main>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
