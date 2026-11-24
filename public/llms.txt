@@ -1,0 +1,22 @@
+# Game Lab
+
+> Game Lab (onlygame.site) is a hub of free browser games built by Simon Tian: survival horror in an infinite IKEA, an AI voxel word-builder, open-world prototypes, multiplayer Backrooms and a 1996 DOS flight sim. Every game opens in a browser tab with no download.
+
+The hub lists each game with a gameplay screenshot, a one-line intro, tags and a Play link. Visitors can also submit a link to their own browser game; submissions are added to a Community section after review.
+
+## Pages
+- [Home](https://www.onlygame.site/): the full game list, with Play links and source links
+
+## Games
+- [SCP-3008: The Infinite IKEA](https://scp3008-one.vercel.app): multiplayer survival horror in an endless, procedurally generated IKEA; scavenge, build a shelter and survive the staff once the store closes
+- [Cat Run](https://cozy-cat-cafe.vercel.app): minimal ink-on-paper endless runner; swap your runner between cats, memes or any emoji and race ghosts of the top runs on a live leaderboard
+- [Minecraft Web: Word Builder](https://minecraft-web-psi.vercel.app): browser Minecraft with an AI twist; press B, describe anything and watch it build itself block by block (based on minecraft-threejs by Yulei Zhu)
+- [Founder Simulator (GTA 6)](https://gta6-opal.vercel.app): stylized open city to roam on foot or by car, with traffic, NPCs, pickups and a live HUD
+- [Founder Simulator (WebGPU)](https://gtav-web-six.vercel.app): browser-only open-world prototype rendered with WebGPU and streaming sectors
+- [The Backrooms Online](https://www.backrooms.online): 3D Backrooms exploration with five levels, procedural maps, stealth-AI entities and live multiplayer
+- [F-22 Lightning II (1996, DOS)](https://f22-lightning-web-beryl.vercel.app): NovaLogic's 1996 combat flight simulator preserved in the browser via DOSBox compiled to WebAssembly (js-dos)
+
+## About
+- [Made by Simon Tian](https://www.hisimon.pro): engineer and founder who builds AI products, apps and games
+- [More apps by Simon Tian](https://www.hisimon.pro/projects)
+- [Source code](https://github.com/SimonSaysGiveMeSmile/arcade-hub)
