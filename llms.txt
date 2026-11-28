@@ -1,0 +1,21 @@
+# Game Lab (arcade-hub)
+
+> Game Lab (arcade-hub) is the source code of onlygame.site, a hub website of free browser games by SimonSaysGiveMeSmile. It is a React + Vite single-page app on Vercel that lists each game with a screenshot, intro, tags, Play and Source links and star ratings, plus serverless functions that let visitors submit their own browser game for LLM-assisted, admin-reviewed listing.
+
+- What it is: a browser game directory / landing page (game hub)
+- Stack: React 18, Vite 5, Vercel serverless functions (Node), GitHub-backed JSON datastore, an Anthropic-compatible LLM API for submission review
+- Live site: https://www.onlygame.site (also https://arcade-hub-gilt.vercel.app)
+- Games listed: SCP-3008 Infinite IKEA, Cat Run, Minecraft Web Word Builder, Founder Simulator (GTA 6 and WebGPU), The Backrooms Online, F-22 Lightning II (1996 DOS via js-dos)
+
+## Docs
+- [README](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/README.md): features, tech stack, dev/build commands, how to add games
+- [src/games.js](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/src/games.js): the list of games shown on the hub
+- [src/App.jsx](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/src/App.jsx): the hub UI (featured game, grid, ratings, publish form)
+- [api/submit.js](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/api/submit.js): game submission agent (fetch, extract metadata, LLM description and safety check, review queue)
+
+## Optional
+- [api/_store.js](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/api/_store.js): GitHub-backed JSON datastore for ratings and submissions
+- [api/rate.js](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/api/rate.js): star rating endpoint
+- [api/admin.js](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/api/admin.js): admin review endpoint
+- [public/llms.txt](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/public/llms.txt): the live site's own llms.txt (game list with play links)
+- [package.json](https://github.com/SimonSaysGiveMeSmile/arcade-hub/blob/main/package.json): scripts and dependencies
